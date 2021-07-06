@@ -35,7 +35,7 @@ pipeline{
                     def NexusRepo = Version.endsWith("SNAPSHOT")? "UttejDevOps-SNAPSHOT" : "UttejDevOpsLab-RELEASE"
             nexusArtifactUploader artifacts: [[artifactId: '${artifactId}',
                                                classifier: '',
-                                               file: "target/${artifactId}-${version}.war",
+                                               file: 'target/${artifactId}-${version}.war',
                                                type: 'war']],
                 credentialsId: '8ad40b34-130a-4f2f-a590-4405c14ff7f7',
                 groupId: '${groupId}',
