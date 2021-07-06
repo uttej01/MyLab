@@ -31,7 +31,7 @@ pipeline{
         //stage3: push artifact to nexus
         stage("pushing artifact to nexus"){
             steps {
-                scritp{
+                script{
                     def NexusRepo = Version.endsWith("SNAPSHOT")? "UttejDevOps-SNAPSHOT" : "UttejDevOpsLab-RELEASE"
             nexusArtifactUploader artifacts: [[artifactId: '${artifactId}',
                                                classifier: '',
@@ -44,6 +44,7 @@ pipeline{
                 protocol: 'http',
                 repository: '${NexusRepo}',
                 version: '${version}'
+                }
             }
         }
         //stage4: printing environment variables
