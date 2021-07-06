@@ -22,6 +22,12 @@ pipeline{
 
             }
         }
+        //stage3: push artifact to nexus
+        stage("pushing artifact to nexus"){
+            steps {
+            nexusArtifactUploader artifacts: [[artifactId: 'UttejDevOpsLab', classifier: '', file: 'target/UttejDevOpsLab-0.0.1-SNAPSHOT.war', type: 'war']], credentialsId: '8ad40b34-130a-4f2f-a590-4405c14ff7f7', groupId: 'com.uttejdevopslab', nexusUrl: '172.20.10.124:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'UttejDevOps-SNAPSHOT', version: '0.0.1-SNAPSHOT'
+            }
+        }
 
         // Stage3 : Publish the source code to Sonarqube
        /* stage ('Sonarqube Analysis'){
