@@ -4,11 +4,11 @@ pipeline{
     tools {
         maven 'maven'
     }
-    environment{
-    artifactId = readMavenPom().getArtifactId()
-    version = readMavenPom().getVersion()
-    name = readMavenPom().getName()
-    groupId = readMavenPom().getGroupId()
+   environment{
+       ArtifactId = readMavenPom().getArtifactId()
+       Version = readMavenPom().getVersion()
+       Name = readMavenPom().getName()
+       GroupId = readMavenPom().getGroupId()
     }
 
     stages {
@@ -32,30 +32,31 @@ pipeline{
         stage("pushing artifact to nexus"){
             steps {
                 script{
-                    def NexusRepo = Version.endsWith("SNAPSHOT")? "UttejDevOps-SNAPSHOT" : "UttejDevOpsLab-RELEASE"
-            nexusArtifactUploader artifacts: [[artifactId: '${artifactId}',
-                                               classifier: '',
-                                               file: "target/${artifactId}-${version}.war",
-                                               type: 'war']],
+                    def NexusRepo = Version.endsWith("SNAPSHOT") ? "UttejDevOps-SNAPSHOT" : "UttejDevOps-RELEASE"
+            nexusArtifactUploader artifacts:
+                [[artifactId: "${ArtifactId}", 
+                classifier: '', 
+                file: "target/${ArtifactId}-${Version}.war", 
+                type: 'war']],
                 credentialsId: '8ad40b34-130a-4f2f-a590-4405c14ff7f7',
-                groupId: '${groupId}',
+                groupId: '${GroupId}',
                 nexusUrl: '172.20.10.124:8081',
                 nexusVersion: 'nexus3',
                 protocol: 'http',
-                repository: '${NexusRepo}',
-                version: '${version}'
+                repository: "${NexusRepo}", 
+                version: "${Version}"
                     echo "${NexusRepo}"
-                    echo "target/${artifactId}-${version}.war"
+                    echo "target/${ArtifactId}-${Version}.war"
                 }
             }
         }
         //stage4: printing environment variables
         stage("Print environment variable"){
             steps{
-                echo "Artifact ID is '${artifactId}'"
-                echo "version is '${version}'"
-                echo "Group ID is '${groupId}'"
-                echo "Name is '${name}'"
+                echo "Artifact ID is '${ArtifactId}'"
+                echo "version is '${Version}'"
+                echo "Group ID is '${GroupId}'"
+                echo "Name is '${Name}'"
             }
         }
 
