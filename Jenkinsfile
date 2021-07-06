@@ -44,6 +44,8 @@ pipeline{
                 protocol: 'http',
                 repository: '${NexusRepo}',
                 version: '${version}'
+                    echo "${NexusRepo}"
+                    echo "target/${artifactId}-${version}.war"
                 }
             }
         }
