@@ -30,6 +30,8 @@ pipeline{
         //stage3: push artifact to nexus
         stage("pushing artifact to nexus"){
             steps {
+                script{
+                    def NexusRepo = Version.endsWith("SNAPSHOT") ? "UttejDevOps-SNAPSHOT" : "UttejDevOps-RELEASE"
                 nexusArtifactUploader artifacts:
                     [[artifactId: "${ArtifactId}",
                       classifier: '',
@@ -40,8 +42,8 @@ pipeline{
                     nexusUrl: '172.20.10.153:8081',
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    repository: 'UttejDevOps-RELEASE',
-                    version: '0.0.1-RELEASE'
+                    repository: "${NexusRepo}",
+                    version: "${Version}"
               /*  script{
                     def NexusRepo = Version.endsWith("SNAPSHOT") ? "UttejDevOps-SNAPSHOT" : "UttejDevOps-RELEASE"
             nexusArtifactUploader artifacts:
