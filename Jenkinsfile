@@ -31,7 +31,7 @@ pipeline{
         stage("pushing artifact to nexus"){
             steps {
                 script{
-                    def NexusRepo = Version.endsWith("SNAPSHOT") ? "UttejDevOps-SNAPSHOT" : "UttejDevOps-RELEASE"
+                    def NexusRepo = Version.endsWith("RELEASE") ? "UttejDevOps-RELEASE" : "UttejDevOps-SNAPSHOT"
                 nexusArtifactUploader artifacts:
                     [[artifactId: "${ArtifactId}",
                       classifier: '',
