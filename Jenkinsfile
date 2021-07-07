@@ -4,13 +4,12 @@ pipeline{
     tools {
         maven 'maven'
     }
-  /* environment{
+  environment{
        ArtifactId = readMavenPom().getArtifactId()
        Version = readMavenPom().getVersion()
        Name = readMavenPom().getName()
        GroupId = readMavenPom().getGroupId()
     }
-*/
     stages {
         // Specify various stage with in stages
 
@@ -29,7 +28,7 @@ pipeline{
             }
         }
         //stage3: push artifact to nexus
-        /*stage("pushing artifact to nexus"){
+        stage("pushing artifact to nexus"){
             steps {
                 script{
                     def NexusRepo = Version.endsWith("SNAPSHOT") ? "UttejDevOps-SNAPSHOT" : "UttejDevOps-RELEASE"
@@ -58,7 +57,7 @@ pipeline{
                 echo "Group ID is '${GroupId}'"
                 echo "Name is '${Name}'"
             }
-        }*/
+        }
 
         // Stage3 : Publish the source code to Sonarqube
        /* stage ('Sonarqube Analysis'){
