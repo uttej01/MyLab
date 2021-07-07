@@ -45,6 +45,29 @@ pipeline{
                     repository: "${NexusRepo}",
                     version: "${Version}"
                 }
+                
+                stage("deploying the artifact"){
+                    steps{
+                    sshPublisher(publishers:
+                                 [sshPublisherDesc(configName: 'ansible-control-node',
+                                                   transfers: [sshTransfer(cleanRemote: false,
+                                                                           excludes: '',
+                                                                           execCommand: 'ansible-playbook /opt/playbooks/downloadanddeploy.yaml -i /opt/playbooks/hosts',
+                                                                           execTimeout: 120000,
+                                                                           flatten: false,
+                                                                           makeEmptyDirs: false,
+                                                                           noDefaultExcludes: false,
+                                                                           patternSeparator: '[, ]+',
+                                                                           remoteDirectory: '',
+                                                                           remoteDirectorySDF: false,
+                                                                           removePrefix: '',
+                                                                           sourceFiles: '')],
+                                                   usePromotionTimestamp: false,
+                                                   useWorkspaceInPromotion: false,
+                                                   verbose: false)])
+                    }
+                }
+                    
               /*  script{
                     def NexusRepo = Version.endsWith("SNAPSHOT") ? "UttejDevOps-SNAPSHOT" : "UttejDevOps-RELEASE"
             nexusArtifactUploader artifacts:
