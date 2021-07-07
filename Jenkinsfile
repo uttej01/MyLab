@@ -4,12 +4,12 @@ pipeline{
     tools {
         maven 'maven'
     }
-  /*environment{
+  environment{
        ArtifactId = readMavenPom().getArtifactId()
        Version = readMavenPom().getVersion()
        Name = readMavenPom().getName()
        GroupId = readMavenPom().getGroupId()
-    } */
+    } 
     stages {
         // Specify various stage with in stages
 
@@ -31,13 +31,13 @@ pipeline{
         stage("pushing artifact to nexus"){
             steps {
                 nexusArtifactUploader artifacts:
-                    [[artifactId: 'UttejDevOpsLab',
+                    [[artifactId: "${ArtifactId}",
                       classifier: '',
-                      file: 'target/UttejDevOpsLab-0.0.1-RELEASE',
+                      file: "target/${ArtifactId}-${Version}.war",
                       type: 'war']],
                     credentialsId: '5d59cfd2-1ac5-4fcd-a730-650b79548a1b',
-                    groupId: 'com.uttejdevopslab',
-                    nexusUrl: '172.20.10.153:8080',
+                    groupId: "${GroupId}",
+                    nexusUrl: '172.20.10.153:8081',
                     nexusVersion: 'nexus3',
                     protocol: 'http',
                     repository: 'UttejDevOps-RELEASE',
