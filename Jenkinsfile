@@ -4,12 +4,12 @@ pipeline{
     tools {
         maven 'maven'
     }
-  environment{
+  /*environment{
        ArtifactId = readMavenPom().getArtifactId()
        Version = readMavenPom().getVersion()
        Name = readMavenPom().getName()
        GroupId = readMavenPom().getGroupId()
-    }
+    } */
     stages {
         // Specify various stage with in stages
 
@@ -30,7 +30,19 @@ pipeline{
         //stage3: push artifact to nexus
         stage("pushing artifact to nexus"){
             steps {
-                script{
+                nexusArtifactUploader artifacts:
+                    [[artifactId: 'UttejDevOpsLab',
+                      classifier: '',
+                      file: 'target/UttejDevOpsLab-0.0.1-RELEASE',
+                      type: 'war']],
+                    credentialsId: '5d59cfd2-1ac5-4fcd-a730-650b79548a1b',
+                    groupId: 'com.uttejdevopslab',
+                    nexusUrl: '172.20.10.153:8080',
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    repository: 'UttejDevOps-RELEASE',
+                    version: '0.0.1-RELEASE'
+              /*  script{
                     def NexusRepo = Version.endsWith("SNAPSHOT") ? "UttejDevOps-SNAPSHOT" : "UttejDevOps-RELEASE"
             nexusArtifactUploader artifacts:
                 [[artifactId: "${ArtifactId}", 
@@ -46,18 +58,18 @@ pipeline{
                 version: "${Version}"
                     echo "${NexusRepo}"
                     echo "target/${ArtifactId}-${Version}.war"
-                }
+                } */
             }
         }
         //stage4: printing environment variables
-        stage("Print environment variable"){
+        /*stage("Print environment variable"){
             steps{
                 echo "Artifact ID is '${ArtifactId}'"
                 echo "version is '${Version}'"
                 echo "Group ID is '${GroupId}'"
                 echo "Name is '${Name}'"
             }
-        }
+        }*/
 
         // Stage3 : Publish the source code to Sonarqube
        /* stage ('Sonarqube Analysis'){
