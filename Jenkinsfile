@@ -44,6 +44,7 @@ pipeline{
                     protocol: 'http',
                     repository: "${NexusRepo}",
                     version: "${Version}"
+                }
               /*  script{
                     def NexusRepo = Version.endsWith("SNAPSHOT") ? "UttejDevOps-SNAPSHOT" : "UttejDevOps-RELEASE"
             nexusArtifactUploader artifacts:
