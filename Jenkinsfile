@@ -89,6 +89,28 @@ pipeline{
                                                    verbose: false)])
                     }
                 }
+        //deploying appication using docker
+        stage("deploying the artifact using docker"){
+                    steps{
+                    sshPublisher(publishers:
+                                 [sshPublisherDesc(configName: 'ansible-control-node',
+                                                   transfers: [sshTransfer(cleanRemote: false,
+                                                                           excludes: '',
+                                                                           execCommand: 'ansible-playbook /opt/playbooks/deployusingdocker.yml -i /opt/playbooks/hosts',
+                                                                           execTimeout: 120000,
+                                                                           flatten: false,
+                                                                           makeEmptyDirs: false,
+                                                                           noDefaultExcludes: false,
+                                                                           patternSeparator: '[, ]+',
+                                                                           remoteDirectory: '',
+                                                                           remoteDirectorySDF: false,
+                                                                           removePrefix: '',
+                                                                           sourceFiles: '')],
+                                                   usePromotionTimestamp: false,
+                                                   useWorkspaceInPromotion: false,
+                                                   verbose: false)])
+                    }
+                }
         //stage4: printing environment variables
         /*stage("Print environment variable"){
             steps{
